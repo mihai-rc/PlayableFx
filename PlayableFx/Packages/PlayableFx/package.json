@@ -1,7 +1,7 @@
 {
   "name": "com.gift-horse.playable-fx",
   "version": "0.0.1",
-  "displayName": "PlayableFx",
+  "displayName": "Playable Fx",
   "description": "Node based framework to create playable sequences.",
   "unity": "2022.3",
   "unityRelease": "58f1",
