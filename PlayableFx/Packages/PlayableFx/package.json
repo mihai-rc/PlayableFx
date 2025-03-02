@@ -13,6 +13,7 @@
     "url": "https://github.com/mihai-rc"
   },
   "dependencies": {
+    "com.annulusgames.lit-motion": "2.0.1",
     "com.gift-horse.scriptable-graph": "0.0.1"
   }
 }
