@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.gift-horse.scriptable-graph": "https://github.com/mihai-rc/ScriptableGraph.git?path=ScriptableGraph/Packages/ScriptableGraph#main",
     "com.unity.collab-proxy": "2.7.1",
     "com.unity.ide.rider": "3.0.34",
     "com.unity.ide.visualstudio": "2.0.22",

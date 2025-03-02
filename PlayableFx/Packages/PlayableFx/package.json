@@ -11,5 +11,8 @@
     "name": "Robert-Mihai Craciun",
     "email": "mihai.rcraciun@gmail.com",
     "url": "https://github.com/mihai-rc"
+  },
+  "dependencies": {
+    "com.gift-horse.scriptable-graph": "0.0.1"
   }
 }

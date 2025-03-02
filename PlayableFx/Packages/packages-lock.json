@@ -4,7 +4,16 @@
       "version": "file:PlayableFx",
       "depth": 0,
       "source": "embedded",
-      "dependencies": {}
+      "dependencies": {
+        "com.gift-horse.scriptable-graph": "0.0.1"
+      }
+    },
+    "com.gift-horse.scriptable-graph": {
+      "version": "https://github.com/mihai-rc/ScriptableGraph.git?path=ScriptableGraph/Packages/ScriptableGraph#main",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "cf1464437abb132ef09ea65af958e51883aab5f9"
     },
     "com.unity.burst": {
       "version": "1.8.19",
