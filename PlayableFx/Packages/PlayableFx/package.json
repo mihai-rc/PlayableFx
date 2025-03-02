@@ -1,0 +1,15 @@
+{
+  "name": "com.gift-horse.playable-fx",
+  "version": "0.0.1",
+  "displayName": "PlayableFx",
+  "description": "Node based framework to create playable sequences.",
+  "unity": "2022.3",
+  "unityRelease": "58f1",
+  "changelogUrl": "https://github.com/mihai-rc/PlayableFx/blob/main/PlayableFx/Packages/PlayableFx/CHANGELOG.md",
+  "licensesUrl": "https://github.com/mihai-rc/PlayableFx/blob/main/PlayableFx/Packages/PlayableFx/LICENSE.md",
+  "author": {
+    "name": "Robert-Mihai Craciun",
+    "email": "mihai.rcraciun@gmail.com",
+    "url": "https://github.com/mihai-rc"
+  }
+}

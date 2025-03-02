@@ -1,0 +1,16 @@
+{
+    "name": "GiftHorse.PlayableFx.Editor",
+    "rootNamespace": "GiftHorse.PlayableFx.Editor",
+    "references": [
+        "GUID:cf542ed6e6c23654290f72e0d6f56ed4"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
