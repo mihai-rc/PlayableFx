@@ -61,12 +61,12 @@ namespace PlayableFx
         /// </summary>
         /// <param name="positionSettings"> Position tween settings. </param>
         /// <param name="rotationSettings"> Rotation tween settings. </param>
-        /// <param name="scaleSetting"> Scale tween settings. </param>
-        public Tween(TweenSettings positionSettings, TweenSettings rotationSettings, TweenSettings scaleSetting)
+        /// <param name="scaleSettings"> Scale tween settings. </param>
+        public Tween(TweenSettings positionSettings, TweenSettings rotationSettings, TweenSettings scaleSettings)
         {
             m_PositionSettings = positionSettings;
             m_RotationSettings = rotationSettings;
-            m_ScaleSettings = scaleSetting;
+            m_ScaleSettings = scaleSettings;
             
             m_OriginalPosition = default;
             m_OriginalRotation = default;

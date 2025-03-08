@@ -10,6 +10,9 @@ namespace PlayableFx
         private Tween m_Tween;
         private bool m_IsFirstFrame = true;
 
+        /// <summary>
+        /// Reference to the tween that will be played.
+        /// </summary>
         public ref Tween Tween => ref m_Tween;
 
         public override void OnGraphStart(Playable playable)
@@ -33,6 +36,12 @@ namespace PlayableFx
             m_IsFirstFrame = true;
         }
 
+        /// <summary>
+        /// Creates the tween with the given settings.
+        /// </summary>
+        /// <param name="positionSettings"> Position tween settings. </param>
+        /// <param name="rotationSettings"> Rotation tween settings. </param>
+        /// <param name="scaleSettings"> Scale tween settings. </param>
         public void CreateTween(TweenSettings positionSettings, TweenSettings rotationSettings, TweenSettings scaleSettings)
         {
             m_Tween = new Tween(positionSettings, rotationSettings, scaleSettings);

@@ -5,7 +5,7 @@ using UnityEngine.Timeline;
 namespace PlayableFx
 {
     /// <summary>
-    /// The track that holds the tween clips
+    /// The track that holds the tween clips.
     /// </summary>
     [TrackColor(148/255f, 222/255f, 89/255f)]
     [TrackBindingType(typeof(Transform))]
