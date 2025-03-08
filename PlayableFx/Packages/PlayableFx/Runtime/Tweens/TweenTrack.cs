@@ -1,4 +1,3 @@
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
@@ -26,21 +25,12 @@ namespace PlayableFx
                 .GetComponent<PlayableDirector>()
                 .GetGenericBinding(this) as Transform;
             
-            if (transformBinding == null)
+            if (transformBinding is null)
                 return playable;
 
-            var tweenBehaviour = playable.GetBehaviour();
-            tweenBehaviour.Transform = transformBinding;
-            tweenBehaviour.Duration = (float)clip.duration;
-
-            // var firstClip = GetClips().FirstOrDefault();
-            // if (firstClip is null) 
-            //     return playable;
-            //
-            // if (firstClip.asset is not TweenClip tweenClip)
-            //     return playable;
-            
-            // tweenBehaviour.CacheOriginalValues(tweenClip.Position.From, tweenClip.Rotation.From, tweenClip.Scale.From);
+            ref var tween = ref playable.GetBehaviour().Tween;
+            tween.Transform = transformBinding;
+            tween.Duration = (float)clip.duration;
             
             return playable;
         }

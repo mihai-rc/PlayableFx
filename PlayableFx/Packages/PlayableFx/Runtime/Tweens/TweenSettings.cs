@@ -8,6 +8,7 @@ namespace PlayableFx
     public struct TweenSettings
     {
         public bool Enabled;
+        public bool FromCurrentValue;
         public Vector3 From;
         public Vector3 To;
         public Ease Ease;

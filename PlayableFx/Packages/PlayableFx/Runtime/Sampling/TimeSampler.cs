@@ -2,15 +2,14 @@ using UnityEngine;
 
 namespace PlayableFx
 {
-    public abstract class EffectTimeSampler<T> : IEffectTimeSampler<T> 
-        where T : PlayableEffect
+    public abstract class TimeSampler : ITimeSampler
     {
-        public abstract float Duration { get; }
-        protected abstract void OnSetTime(float time);
-        
         private const string k_OutOfBoundsTimeWarning = "[PlayableEffect] Cannot sample Effect: {0}, the time ({1:G17}s) is larger then the duration ({2:G17}s).";
-        
+
+        private readonly string m_Name;
         private float m_Time;
+        
+        public abstract float Duration { get; }
         
         public float Time
         {
@@ -18,18 +17,13 @@ namespace PlayableFx
             set => SetTime(value);
         }
         
-        public T Effect { get; }
-        
-        protected EffectTimeSampler(T effect)
-        {
-            Effect = effect;
-        }
+        protected abstract void OnSetTime(float time);
 
         private void SetTime(float time)
         {
             if (time > Duration)
             {
-                Debug.LogError(string.Format(k_OutOfBoundsTimeWarning, Effect.name, time, Duration));
+                Debug.LogError(string.Format(k_OutOfBoundsTimeWarning, m_Name, time, Duration));
                 return;
             }
 
