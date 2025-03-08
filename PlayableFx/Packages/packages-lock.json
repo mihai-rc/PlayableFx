@@ -11,6 +11,13 @@
       },
       "hash": "b946c3a10848a426a09baa395df5151792d7625e"
     },
+    "com.cysharp.unitask": {
+      "version": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "8042b29ff87dd5506d7aad72bd6d8d7405985f27"
+    },
     "com.gift-horse.playable-fx": {
       "version": "file:PlayableFx",
       "depth": 0,
