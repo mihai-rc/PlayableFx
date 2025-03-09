@@ -541,7 +541,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1806019460}
   - component: {fileID: 1806019459}
-  - component: {fileID: 1806019461}
   m_Layer: 0
   m_Name: _PlayableTimeline
   m_TagString: Untagged
@@ -587,18 +586,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1806019461
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1806019458}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa3f0d68b43c2c94d92f187e07bfe49d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

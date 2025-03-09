@@ -17,7 +17,7 @@ namespace PlayableFx
 
         public override void OnGraphStart(Playable playable)
         {
-            m_Tween.ResetToOriginalValues();
+            m_Tween.RevertToDefaults();
         }
 
         public override void ProcessFrame(Playable playable, FrameData info, object playerData)

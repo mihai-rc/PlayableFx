@@ -15,7 +15,7 @@ namespace PlayableFx
         /// <summary>
         /// Sets whether the tween should start from the current value or from the overrides.
         /// </summary>
-        public bool FromCurrentValue;
+        public bool OverrideCurrentValues;
         
         /// <summary>
         /// Starting value to tween from.

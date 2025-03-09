@@ -12,7 +12,7 @@ namespace PlayableFx
         [SerializeField] private TweenSettings m_Rotation;
         [SerializeField] private TweenSettings m_Scale;
         
-        public ClipCaps clipCaps => ClipCaps.Extrapolation;
+        public ClipCaps clipCaps => ClipCaps.Extrapolation | ClipCaps.Blending;
         
         public override Playable CreatePlayable(PlayableGraph graph, GameObject owner)
         {

@@ -19,16 +19,16 @@ namespace PlayableFx
         public float Duration { get; set; }
 
         /// <summary>
-        /// The <see cref="UnityEngine.Transform"/> to animate. 
+        /// The <see cref="Transform"/> to animate. 
         /// </summary>
         public Transform Transform
         {
             set
             {
                 m_Transform = value;
-                m_OriginalPosition = value.localPosition;
-                m_OriginalRotation = value.localEulerAngles;
-                m_OriginalScale = value.localScale;
+                m_DefaultPosition = value.localPosition;
+                m_DefaultRotation = value.localEulerAngles;
+                m_DefaultScale = value.localScale;
             }
         }
 
@@ -46,9 +46,9 @@ namespace PlayableFx
         private readonly TweenSettings m_RotationSettings;
         private readonly TweenSettings m_ScaleSettings;
         
-        private Vector3 m_OriginalPosition;
-        private Vector3 m_OriginalRotation;
-        private Vector3 m_OriginalScale;
+        private Vector3 m_DefaultPosition;
+        private Vector3 m_DefaultRotation;
+        private Vector3 m_DefaultScale;
         
         private Vector3 m_FromPosition;
         private Vector3 m_FromRotation;
@@ -68,9 +68,9 @@ namespace PlayableFx
             m_RotationSettings = rotationSettings;
             m_ScaleSettings = scaleSettings;
             
-            m_OriginalPosition = default;
-            m_OriginalRotation = default;
-            m_OriginalScale = default;
+            m_DefaultPosition = default;
+            m_DefaultRotation = default;
+            m_DefaultScale = default;
             
             m_FromPosition = default;
             m_FromRotation = default;
@@ -85,15 +85,15 @@ namespace PlayableFx
             if (!TryGetTransform(out var transform))
                 return;
             
-            m_FromPosition = m_PositionSettings.FromCurrentValue 
+            m_FromPosition = m_PositionSettings.OverrideCurrentValues 
                 ? transform.localPosition
                 : m_PositionSettings.From;
             
-            m_FromRotation = m_RotationSettings.FromCurrentValue
+            m_FromRotation = m_RotationSettings.OverrideCurrentValues
                 ? transform.localEulerAngles
                 : m_RotationSettings.From;
             
-            m_FromScale = m_ScaleSettings.FromCurrentValue
+            m_FromScale = m_ScaleSettings.OverrideCurrentValues
                 ? transform.localScale
                 : m_ScaleSettings.From;
         }
@@ -101,19 +101,19 @@ namespace PlayableFx
         /// <summary>
         /// Resets the <see cref="Transform"/> to its original values.
         /// </summary>
-        public void ResetToOriginalValues()
+        public void RevertToDefaults()
         {
             if (!TryGetTransform(out var transform))
                 return;
             
             if (m_PositionSettings.Enabled)
-                transform.position = m_OriginalPosition;
+                transform.position = m_DefaultPosition;
             
             if (m_RotationSettings.Enabled)
-                transform.eulerAngles = m_OriginalRotation;
+                transform.eulerAngles = m_DefaultRotation;
             
             if (m_ScaleSettings.Enabled)
-                transform.localScale = m_OriginalScale;
+                transform.localScale = m_DefaultScale;
         }
         
         /// <summary>
