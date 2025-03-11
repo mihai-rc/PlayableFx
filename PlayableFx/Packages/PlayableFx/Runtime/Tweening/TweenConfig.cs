@@ -1,11 +1,11 @@
 using System;
-using UnityEngine;
 using LitMotion;
+using UnityEngine;
 
 namespace PlayableFx
 {
     [Serializable]
-    public struct TweenSettings
+    public struct TweenConfig
     {
         /// <summary>
         /// Whether this configuration takes effect or not.

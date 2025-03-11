@@ -1,10 +1,9 @@
 using UnityEngine;
 using LitMotion;
-using LitMotion.Extensions;
 
 namespace PlayableFx
 {
-    public struct Tween
+    public class Tween
     {
         private enum Transformation
         {
@@ -12,23 +11,58 @@ namespace PlayableFx
             Rotation,
             Scale
         }
+
+        public Vector3 Position { get; private set; }
+
+        public Vector3 Rotation { get; private set; }
+        
+        public Vector3 Scale { get; private set; }
+
+        public Vector3 FromPosition
+        {
+            get => m_FromPosition;
+            set
+            {
+                m_FromPosition = value;
+                Position = value;
+            }
+        }
+        
+        public Vector3 FromRotation
+        {
+            get => m_FromRotation;
+            set
+            {
+                m_FromRotation = value;
+                Rotation = value;
+            }
+        }
+        
+        public Vector3 FromScale
+        {
+            get => m_FromScale;
+            set
+            {
+                m_FromScale = value;
+                Scale = value;
+            }
+        }
         
         /// <summary>
         /// The duration of the <see cref="Tween"/>.
         /// </summary>
-        public float Duration { get; set; }
-
-        /// <summary>
-        /// The <see cref="Transform"/> to animate. 
-        /// </summary>
-        public Transform Transform
+        public float Duration
+        {
+            set => m_Duration = value;
+        }
+        
+        public TweenSettings Settings
         {
             set
             {
-                m_Transform = value;
-                m_DefaultPosition = value.localPosition;
-                m_DefaultRotation = value.localEulerAngles;
-                m_DefaultScale = value.localScale;
+                m_PositionConfig = value.PositionConfig;
+                m_RotationConfig = value.RotationConfig;
+                m_ScaleConfig = value.ScaleConfig;
             }
         }
 
@@ -42,81 +76,35 @@ namespace PlayableFx
         
         private const string k_NullTransformError = "[Tween] Can't play tween because no Transform was provided.";
         
-        private readonly TweenSettings m_PositionSettings;
-        private readonly TweenSettings m_RotationSettings;
-        private readonly TweenSettings m_ScaleSettings;
+        private float m_Duration;
         
-        private Vector3 m_DefaultPosition;
-        private Vector3 m_DefaultRotation;
-        private Vector3 m_DefaultScale;
+        private TweenConfig m_PositionConfig;
+        private TweenConfig m_RotationConfig;
+        private TweenConfig m_ScaleConfig;
         
         private Vector3 m_FromPosition;
         private Vector3 m_FromRotation;
         private Vector3 m_FromScale;
         
-        private Transform m_Transform;
 
         /// <summary>
         /// <see cref="Tween"/>'s constructor.
         /// </summary>
-        /// <param name="positionSettings"> Position tween settings. </param>
-        /// <param name="rotationSettings"> Rotation tween settings. </param>
-        /// <param name="scaleSettings"> Scale tween settings. </param>
-        public Tween(TweenSettings positionSettings, TweenSettings rotationSettings, TweenSettings scaleSettings)
-        {
-            m_PositionSettings = positionSettings;
-            m_RotationSettings = rotationSettings;
-            m_ScaleSettings = scaleSettings;
-            
-            m_DefaultPosition = default;
-            m_DefaultRotation = default;
-            m_DefaultScale = default;
-            
-            m_FromPosition = default;
-            m_FromRotation = default;
-            m_FromScale = default;
-            
-            m_Transform = null;
-            Duration = 0;
-        }
-        
-        /// <summary>
-        /// Sets the starting values of the <see cref="Tween"/> internally.
-        /// </summary>
-        public void Prepare()
-        {
-            if (!TryGetTransform(out var transform))
-                return;
-            
-            m_FromPosition = m_PositionSettings.OverrideCurrentValues 
-                ? transform.localPosition
-                : m_PositionSettings.From;
-            
-            m_FromRotation = m_RotationSettings.OverrideCurrentValues
-                ? transform.localEulerAngles
-                : m_RotationSettings.From;
-            
-            m_FromScale = m_ScaleSettings.OverrideCurrentValues
-                ? transform.localScale
-                : m_ScaleSettings.From;
-        }
+        public Tween() { }
         
         /// <summary>
         /// Sets the <see cref="Transform"/> to its final values.
         /// </summary>
         public void Complete()
         {
-            if (!TryGetTransform(out var transform))
-                return;
+            if (m_PositionConfig.Enabled)
+                Position = m_PositionConfig.To;
             
-            if (m_PositionSettings.Enabled)
-                transform.position = m_PositionSettings.To;
+            if (m_RotationConfig.Enabled)
+                Rotation = m_RotationConfig.To;
             
-            if (m_RotationSettings.Enabled)
-                transform.eulerAngles = m_RotationSettings.To;
-            
-            if (m_ScaleSettings.Enabled)
-                transform.localScale = m_ScaleSettings.To;
+            if (m_ScaleConfig.Enabled)
+                Scale = m_ScaleConfig.To;
         }
         
         /// <summary>
@@ -124,53 +112,28 @@ namespace PlayableFx
         /// </summary>
         public void Revert()
         {
-            if (!TryGetTransform(out var transform))
-                return;
+            if (m_PositionConfig.Enabled)
+                Position = m_FromPosition;
             
-            if (m_PositionSettings.Enabled)
-                transform.position = m_DefaultPosition;
+            if (m_RotationConfig.Enabled)
+                Rotation = m_FromRotation;
             
-            if (m_RotationSettings.Enabled)
-                transform.eulerAngles = m_DefaultRotation;
-            
-            if (m_ScaleSettings.Enabled)
-                transform.localScale = m_DefaultScale;
-        }
-        
-        /// <summary>
-        /// Tries to get the <see cref="Transform"/> bount to this <see cref="Tween"/>.
-        /// </summary>
-        /// <param name="transform"> Reference to the <see cref="Transform"/> bound to this <see cref="Tween"/>. </param>
-        /// <returns> Returns whether the <see cref="Transform"/> is null or not. </returns>
-        private bool TryGetTransform(out Transform transform)
-        {
-            if (m_Transform is null)
-            {
-                Debug.LogError(k_NullTransformError);
-                
-                transform = null;
-                return false;
-            }
-            
-            transform = m_Transform;
-            return true;
+            if (m_ScaleConfig.Enabled)
+                Scale = m_FromScale;
         }
         
         private void SetTime(float time)
         {
-            if (!TryGetTransform(out var transform))
-                return;
-
             var sequenceBuilder = LSequence.Create();
 
-            if (m_PositionSettings.Enabled)
-                CreateMotion(sequenceBuilder, m_PositionSettings, transform, Transformation.Position);
+            if (m_PositionConfig.Enabled)
+                CreateMotion(sequenceBuilder, m_PositionConfig, Transformation.Position);
 
-            if (m_RotationSettings.Enabled)
-                CreateMotion(sequenceBuilder, m_RotationSettings, transform, Transformation.Rotation);
+            if (m_RotationConfig.Enabled)
+                CreateMotion(sequenceBuilder, m_RotationConfig, Transformation.Rotation);
 
-            if (m_ScaleSettings.Enabled)
-                CreateMotion(sequenceBuilder, m_ScaleSettings, transform, Transformation.Scale);
+            if (m_ScaleConfig.Enabled)
+                CreateMotion(sequenceBuilder, m_ScaleConfig, Transformation.Scale);
 
             var sequence = sequenceBuilder.Run();
             sequence.Preserve();
@@ -180,8 +143,7 @@ namespace PlayableFx
         }
 
         private void CreateMotion(MotionSequenceBuilder sequenceBuilder, 
-            TweenSettings settings,
-            Transform transform, 
+            TweenConfig config,
             Transformation transformation)
         {
             var from = transformation switch
@@ -192,21 +154,21 @@ namespace PlayableFx
                 _ => default
             };
             
-            var motionBuilder = LMotion.Create(from, settings.To, Duration);
-            if (settings.Ease is Ease.CustomAnimationCurve)
+            var motionBuilder = LMotion.Create(from, config.To, m_Duration);
+            if (config.Ease is Ease.CustomAnimationCurve)
             {
-                motionBuilder.WithEase(settings.Curve);
+                motionBuilder.WithEase(config.Curve);
             }
             else
             {
-                motionBuilder.WithEase(settings.Ease);
+                motionBuilder.WithEase(config.Ease);
             }
 
             var motion = transformation switch
             {
-                Transformation.Position => motionBuilder.BindToLocalPosition(transform),
-                Transformation.Rotation => motionBuilder.BindToLocalEulerAngles(transform),
-                Transformation.Scale => motionBuilder.BindToLocalScale(transform),
+                Transformation.Position => motionBuilder.Bind(this, (v, t) => t.Position = v),
+                Transformation.Rotation => motionBuilder.Bind(this, (v, t) => t.Rotation = v),
+                Transformation.Scale => motionBuilder.Bind(this, (v, t) => t.Scale = v),
                 _ => default
             };
 

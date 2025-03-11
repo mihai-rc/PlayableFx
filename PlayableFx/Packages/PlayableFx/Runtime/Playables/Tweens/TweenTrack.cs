@@ -19,20 +19,25 @@ namespace PlayableFx
             // Thank my dude here https://forum.unity.com/threads/trying-to-get-percentage-of-the-way-through-playable.503672/#post-3281262
             // additional info here https://forum.unity.com/threads/timeline-adds-1-million-to-playable-getduration-when-extrapolation-is-set-to-anything-but-none.1324440/
             var playable = (ScriptPlayable<TweenBehavior>)base.CreatePlayable(graph, gameObject, clip);
-
+        
             // Grab the reference exposed on the track so we can initialize our TweenBehavior with its values.
-            var transformBinding = gameObject
-                .GetComponent<PlayableDirector>()
-                .GetGenericBinding(this) as Transform;
-            
-            if (transformBinding is null)
-                return playable;
-
-            ref var tween = ref playable.GetBehaviour().Tween;
-            tween.Transform = transformBinding;
-            tween.Duration = (float)clip.duration;
+            // var transformBinding = gameObject
+            //     .GetComponent<PlayableDirector>()
+            //     .GetGenericBinding(this) as Transform;
+            //
+            // if (transformBinding is null)
+            //     return playable;
+        
+            // ref var tween = ref playable.GetBehaviour().Tween;
+            // tween.Transform = transformBinding;
+            playable.GetBehaviour().Duration = (float)clip.duration;
             
             return playable;
+        }
+
+        public override Playable CreateTrackMixer(PlayableGraph graph, GameObject gameObject, int inputCount)
+        {
+            return ScriptPlayable<TweenTrackMixer>.Create(graph, inputCount);
         }
     }
 }
