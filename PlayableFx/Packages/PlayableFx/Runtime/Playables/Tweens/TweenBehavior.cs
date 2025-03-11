@@ -14,28 +14,7 @@ namespace PlayableFx
         /// Reference to the tween that will be played.
         /// </summary>
         public ref Tween Tween => ref m_Tween;
-
-        public override void OnGraphStart(Playable playable)
-        {
-            m_Tween.RevertToDefaults();
-        }
-
-        public override void ProcessFrame(Playable playable, FrameData info, object playerData)
-        {
-            if (m_IsFirstFrame)
-            {
-                m_IsFirstFrame = false;
-                m_Tween.PrepareStartValues();
-            }
-            
-            m_Tween.Time = (float)playable.GetTime();
-        }
-
-        public override void OnBehaviourPause(Playable playable, FrameData info)
-        {
-            m_IsFirstFrame = true;
-        }
-
+        
         /// <summary>
         /// Creates the tween with the given settings.
         /// </summary>
@@ -45,6 +24,32 @@ namespace PlayableFx
         public void CreateTween(TweenSettings positionSettings, TweenSettings rotationSettings, TweenSettings scaleSettings)
         {
             m_Tween = new Tween(positionSettings, rotationSettings, scaleSettings);
+        }
+
+        public override void OnGraphStart(Playable playable)
+        {
+            m_Tween.Revert();
+        }
+
+        public override void ProcessFrame(Playable playable, FrameData info, object playerData)
+        {
+            if (m_IsFirstFrame)
+            {
+                m_IsFirstFrame = false;
+                m_Tween.Prepare();
+            }
+            
+            m_Tween.Time = (float)playable.GetTime();
+        }
+
+        public override void OnBehaviourPause(Playable playable, FrameData info)
+        {
+            m_IsFirstFrame = true;
+            
+            if (info.weight != 0f)
+                return;
+            
+            m_Tween.Complete();
         }
     }
 }

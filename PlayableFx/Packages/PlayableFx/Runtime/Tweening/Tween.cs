@@ -4,7 +4,7 @@ using LitMotion.Extensions;
 
 namespace PlayableFx
 {
-    public class Tween
+    public struct Tween
     {
         private enum Transformation
         {
@@ -40,7 +40,7 @@ namespace PlayableFx
             set => SetTime(value);
         }
         
-        private const string k_NullTransformError = "[PlayableTween] Can't play tween because no Transform was provided.";
+        private const string k_NullTransformError = "[Tween] Can't play tween because no Transform was provided.";
         
         private readonly TweenSettings m_PositionSettings;
         private readonly TweenSettings m_RotationSettings;
@@ -75,12 +75,15 @@ namespace PlayableFx
             m_FromPosition = default;
             m_FromRotation = default;
             m_FromScale = default;
+            
+            m_Transform = null;
+            Duration = 0;
         }
         
         /// <summary>
         /// Sets the starting values of the <see cref="Tween"/> internally.
         /// </summary>
-        public void PrepareStartValues()
+        public void Prepare()
         {
             if (!TryGetTransform(out var transform))
                 return;
@@ -99,9 +102,27 @@ namespace PlayableFx
         }
         
         /// <summary>
+        /// Sets the <see cref="Transform"/> to its final values.
+        /// </summary>
+        public void Complete()
+        {
+            if (!TryGetTransform(out var transform))
+                return;
+            
+            if (m_PositionSettings.Enabled)
+                transform.position = m_PositionSettings.To;
+            
+            if (m_RotationSettings.Enabled)
+                transform.eulerAngles = m_RotationSettings.To;
+            
+            if (m_ScaleSettings.Enabled)
+                transform.localScale = m_ScaleSettings.To;
+        }
+        
+        /// <summary>
         /// Resets the <see cref="Transform"/> to its original values.
         /// </summary>
-        public void RevertToDefaults()
+        public void Revert()
         {
             if (!TryGetTransform(out var transform))
                 return;
