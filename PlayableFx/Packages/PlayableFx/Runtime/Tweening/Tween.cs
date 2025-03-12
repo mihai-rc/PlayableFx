@@ -1,5 +1,6 @@
 using UnityEngine;
 using LitMotion;
+using UnityEditor;
 
 namespace PlayableFx
 {
@@ -12,6 +13,8 @@ namespace PlayableFx
             Scale
         }
 
+        public TweenSettings Settings { get; set; }
+
         public Vector3 Position { get; private set; }
 
         public Vector3 Rotation { get; private set; }
@@ -23,8 +26,11 @@ namespace PlayableFx
             get => m_FromPosition;
             set
             {
-                m_FromPosition = value;
-                Position = value;
+                m_FromPosition = Settings.PositionConfig.OverrideCurrentValues 
+                    ? Settings.PositionConfig.From 
+                    : value;
+                
+                Position = m_FromPosition;
             }
         }
         
@@ -33,8 +39,11 @@ namespace PlayableFx
             get => m_FromRotation;
             set
             {
-                m_FromRotation = value;
-                Rotation = value;
+                m_FromRotation = Settings.RotationConfig.OverrideCurrentValues 
+                    ? Settings.RotationConfig.From 
+                    : value;
+                
+                Rotation = m_FromRotation;
             }
         }
         
@@ -43,8 +52,11 @@ namespace PlayableFx
             get => m_FromScale;
             set
             {
-                m_FromScale = value;
-                Scale = value;
+                m_FromScale = Settings.ScaleConfig.OverrideCurrentValues 
+                    ? Settings.ScaleConfig.From 
+                    : value;
+                
+                Scale = m_FromScale;
             }
         }
         
@@ -56,16 +68,6 @@ namespace PlayableFx
             set => m_Duration = value;
         }
         
-        public TweenSettings Settings
-        {
-            set
-            {
-                m_PositionConfig = value.PositionConfig;
-                m_RotationConfig = value.RotationConfig;
-                m_ScaleConfig = value.ScaleConfig;
-            }
-        }
-
         /// <summary>
         /// Sets the time of the <see cref="Tween"/>.
         /// </summary>
@@ -77,11 +79,7 @@ namespace PlayableFx
         private const string k_NullTransformError = "[Tween] Can't play tween because no Transform was provided.";
         
         private float m_Duration;
-        
-        private TweenConfig m_PositionConfig;
-        private TweenConfig m_RotationConfig;
-        private TweenConfig m_ScaleConfig;
-        
+
         private Vector3 m_FromPosition;
         private Vector3 m_FromRotation;
         private Vector3 m_FromScale;
@@ -92,48 +90,46 @@ namespace PlayableFx
         /// </summary>
         public Tween() { }
         
+        public void Deconstruct(out Vector3 position, out Vector3 rotation, out Vector3 scale)
+        {
+            position = Position;
+            rotation = Rotation;
+            scale = Scale;
+        }
+        
+        public void Deconstruct(out Vector3 position, out Vector3 rotation, out Vector3 scale, out TweenSettings settings)
+        {
+            position = Position;
+            rotation = Rotation;
+            scale = Scale;
+            settings = Settings;
+        }
+        
         /// <summary>
         /// Sets the <see cref="Transform"/> to its final values.
         /// </summary>
-        public void Complete()
-        {
-            if (m_PositionConfig.Enabled)
-                Position = m_PositionConfig.To;
-            
-            if (m_RotationConfig.Enabled)
-                Rotation = m_RotationConfig.To;
-            
-            if (m_ScaleConfig.Enabled)
-                Scale = m_ScaleConfig.To;
-        }
+        public void Complete() => SetTime(m_Duration);
         
         /// <summary>
         /// Resets the <see cref="Transform"/> to its original values.
         /// </summary>
-        public void Revert()
-        {
-            if (m_PositionConfig.Enabled)
-                Position = m_FromPosition;
-            
-            if (m_RotationConfig.Enabled)
-                Rotation = m_FromRotation;
-            
-            if (m_ScaleConfig.Enabled)
-                Scale = m_FromScale;
-        }
+        public void Revert() => SetTime(0f);
         
         private void SetTime(float time)
         {
             var sequenceBuilder = LSequence.Create();
 
-            if (m_PositionConfig.Enabled)
-                CreateMotion(sequenceBuilder, m_PositionConfig, Transformation.Position);
+            var positionConfig = Settings.PositionConfig;
+            if (positionConfig.Enabled)
+                CreateMotion(sequenceBuilder, positionConfig, Transformation.Position);
 
-            if (m_RotationConfig.Enabled)
-                CreateMotion(sequenceBuilder, m_RotationConfig, Transformation.Rotation);
+            var rotationConfig = Settings.RotationConfig;
+            if (rotationConfig.Enabled)
+                CreateMotion(sequenceBuilder, rotationConfig, Transformation.Rotation);
 
-            if (m_ScaleConfig.Enabled)
-                CreateMotion(sequenceBuilder, m_ScaleConfig, Transformation.Scale);
+            var scaleConfig = Settings.ScaleConfig;
+            if (scaleConfig.Enabled)
+                CreateMotion(sequenceBuilder, scaleConfig, Transformation.Scale);
 
             var sequence = sequenceBuilder.Run();
             sequence.Preserve();

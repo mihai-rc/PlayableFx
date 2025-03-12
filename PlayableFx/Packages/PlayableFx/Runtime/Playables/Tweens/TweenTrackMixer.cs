@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Playables;
@@ -7,13 +8,47 @@ namespace PlayableFx
 {
     public class TweenTrackMixer : PlayableBehaviour
     {
-        private const string k_NullTransformError = "[TweenTrackMixer] Can't play tween because no Transform was provided.";
+        private const string k_NullTransformOnInitError = "[TweenTrackMixer] Can't initialize because no Transform was provided.";
+        private const string k_NullTransformOnStartError = "[TweenTrackMixer] Can't initialize because no Transform was provided.";
+        private const string k_NullTransformOnTickError = "[TweenTrackMixer] Can't play tween because no Transform was provided.";
+        
+        private Transform m_Transform;
+        private Vector3 m_DefaultPosition;
+        private Vector3 m_DefaultRotation;
+        private Vector3 m_DefaultScale;
+        
+        public void Init(Transform transform)
+        {
+            if (transform is null)
+            {
+                Debug.LogError(k_NullTransformOnInitError);
+                return;
+            }
+            
+            m_Transform = transform;
+            m_DefaultPosition = transform.localPosition;
+            m_DefaultRotation = transform.localEulerAngles;
+            m_DefaultScale = transform.localScale;
+        }
+
+        public override void OnGraphStart(Playable playable)
+        {
+            if (m_Transform is null)
+            {
+                Debug.LogError(k_NullTransformOnStartError);
+                return;
+            }
+            
+            m_Transform.localPosition = m_DefaultPosition;
+            m_Transform.localEulerAngles = m_DefaultRotation;
+            m_Transform.localScale = m_DefaultScale;
+        }
 
         public override void ProcessFrame(Playable playable, FrameData info, object playerData)
         {
-            if (playerData is not Transform transform)
+            if (m_Transform is null)
             {
-                Debug.LogError(k_NullTransformError);
+                Debug.LogError(k_NullTransformOnTickError);
                 return;
             }
             
@@ -38,22 +73,52 @@ namespace PlayableFx
                 case 1:
                 {
                     var playingInput = playingInputs.First();
-                
-                    Debug.Log(playingInput.behavior.Tween.Position);
-                    transform.localPosition = playingInput.behavior.Tween.Position;
-                    transform.localEulerAngles = playingInput.behavior.Tween.Rotation;
-                    transform.localScale = playingInput.behavior.Tween.Scale;
-                
+                    var tween = playingInput.behavior.Tween;
+                    
+                    if (tween.Settings.PositionConfig.Enabled)
+                        m_Transform.localPosition = playingInput.behavior.Tween.Position;
+                    
+                    if (tween.Settings.RotationConfig.Enabled)
+                        m_Transform.localEulerAngles = playingInput.behavior.Tween.Rotation;
+                    
+                    if (tween.Settings.ScaleConfig.Enabled)
+                        m_Transform.localScale = playingInput.behavior.Tween.Scale;
+                    
                     break;
                 }
                 case 2:
                 {
                     var firstInput = playingInputs[0];
-                    var secondInput = playingInputs[1];
+                    var firstWeight = firstInput.weight;
+                    var (firstPosition, firstRotation, firstScale, firstSettings) = firstInput.behavior.Tween;
                     
-                    transform.localPosition = Vector3.Lerp(firstInput.behavior.Tween.Position, secondInput.behavior.Tween.Position, firstInput.weight);
-                    transform.localEulerAngles = Vector3.Lerp(firstInput.behavior.Tween.Rotation, secondInput.behavior.Tween.Rotation, firstInput.weight);
-                    transform.localScale = Vector3.Lerp(firstInput.behavior.Tween.Scale, secondInput.behavior.Tween.Scale, firstInput.weight);
+                    var secondInput = playingInputs[1];
+                    var secondWeight = secondInput.weight;
+                    var (secondPosition, secondRotation, secondScale, secondSettings) = secondInput.behavior.Tween;
+                    
+                    m_Transform.localPosition = (firstSettings.PositionConfig.Enabled, secondSettings.PositionConfig.Enabled) switch
+                    {
+                        (true , true ) => Vector3.Lerp(firstPosition, secondPosition, secondWeight),
+                        (true , false) => firstPosition,
+                        (false, true ) => secondPosition,
+                        _ => throw new ArgumentOutOfRangeException()
+                    };
+                    
+                    m_Transform.localEulerAngles = (firstSettings.RotationConfig.Enabled, secondSettings.RotationConfig.Enabled) switch
+                    {
+                        (true , true ) => Vector3.Lerp(firstRotation, secondRotation, secondWeight),
+                        (true , false) => firstRotation,
+                        (false, true ) => secondRotation,
+                        _ => throw new ArgumentOutOfRangeException()
+                    };
+                    
+                    m_Transform.localScale = (firstSettings.ScaleConfig.Enabled, secondSettings.ScaleConfig.Enabled) switch
+                    {
+                        (true , true ) => Vector3.Lerp(firstScale, secondScale, secondWeight),
+                        (true , false) => firstScale,
+                        (false, true ) => secondScale,
+                        _ => throw new ArgumentOutOfRangeException()
+                    };
                     
                     break;
                 }
