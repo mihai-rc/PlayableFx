@@ -66,34 +66,32 @@ namespace PlayableFx
                 playingInputs.Add((inputBehavior, inoutWeight));
             }
             
-            Debug.Log(playingInputs.Count);
             var playingInputsCount = playingInputs.Count;
             switch (playingInputsCount)
             {
                 case 1:
                 {
                     var playingInput = playingInputs.First();
-                    var tween = playingInput.behavior.Tween;
+                    var (position, rotation, scale, settings) = playingInput.behavior.Tween;
                     
-                    if (tween.Settings.PositionConfig.Enabled)
-                        m_Transform.localPosition = playingInput.behavior.Tween.Position;
+                    if (settings.PositionConfig.Enabled)
+                        m_Transform.localPosition = position;
                     
-                    if (tween.Settings.RotationConfig.Enabled)
-                        m_Transform.localEulerAngles = playingInput.behavior.Tween.Rotation;
+                    if (settings.RotationConfig.Enabled)
+                        m_Transform.localEulerAngles = rotation;
                     
-                    if (tween.Settings.ScaleConfig.Enabled)
-                        m_Transform.localScale = playingInput.behavior.Tween.Scale;
+                    if (settings.ScaleConfig.Enabled)
+                        m_Transform.localScale = scale;
                     
                     break;
                 }
                 case 2:
                 {
                     var firstInput = playingInputs[0];
-                    var firstWeight = firstInput.weight;
-                    var (firstPosition, firstRotation, firstScale, firstSettings) = firstInput.behavior.Tween;
-                    
                     var secondInput = playingInputs[1];
                     var secondWeight = secondInput.weight;
+                    
+                    var (firstPosition, firstRotation, firstScale, firstSettings) = firstInput.behavior.Tween;
                     var (secondPosition, secondRotation, secondScale, secondSettings) = secondInput.behavior.Tween;
                     
                     m_Transform.localPosition = (firstSettings.PositionConfig.Enabled, secondSettings.PositionConfig.Enabled) switch
@@ -101,7 +99,6 @@ namespace PlayableFx
                         (true , true ) => Vector3.Lerp(firstPosition, secondPosition, secondWeight),
                         (true , false) => firstPosition,
                         (false, true ) => secondPosition,
-                        _ => throw new ArgumentOutOfRangeException()
                     };
                     
                     m_Transform.localEulerAngles = (firstSettings.RotationConfig.Enabled, secondSettings.RotationConfig.Enabled) switch
@@ -109,7 +106,6 @@ namespace PlayableFx
                         (true , true ) => Vector3.Lerp(firstRotation, secondRotation, secondWeight),
                         (true , false) => firstRotation,
                         (false, true ) => secondRotation,
-                        _ => throw new ArgumentOutOfRangeException()
                     };
                     
                     m_Transform.localScale = (firstSettings.ScaleConfig.Enabled, secondSettings.ScaleConfig.Enabled) switch
@@ -117,7 +113,6 @@ namespace PlayableFx
                         (true , true ) => Vector3.Lerp(firstScale, secondScale, secondWeight),
                         (true , false) => firstScale,
                         (false, true ) => secondScale,
-                        _ => throw new ArgumentOutOfRangeException()
                     };
                     
                     break;

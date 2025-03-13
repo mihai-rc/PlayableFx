@@ -1,6 +1,5 @@
 using UnityEngine;
 using LitMotion;
-using UnityEditor;
 
 namespace PlayableFx
 {
@@ -12,19 +11,39 @@ namespace PlayableFx
             Rotation,
             Scale
         }
+        
+        /// <summary>
+        /// The duration of the <see cref="Tween"/>.
+        /// </summary>
+        public float Duration { get; private set; }
 
-        public TweenSettings Settings { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public TweenSettings Settings { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public Vector3 Position { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public Vector3 Rotation { get; private set; }
         
+        /// <summary>
+        /// 
+        /// </summary>
         public Vector3 Scale { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public Vector3 FromPosition
         {
             get => m_FromPosition;
-            set
+            private set
             {
                 m_FromPosition = Settings.PositionConfig.OverrideCurrentValues 
                     ? Settings.PositionConfig.From 
@@ -34,10 +53,13 @@ namespace PlayableFx
             }
         }
         
+        /// <summary>
+        /// 
+        /// </summary>
         public Vector3 FromRotation
         {
             get => m_FromRotation;
-            set
+            private set
             {
                 m_FromRotation = Settings.RotationConfig.OverrideCurrentValues 
                     ? Settings.RotationConfig.From 
@@ -47,10 +69,13 @@ namespace PlayableFx
             }
         }
         
+        /// <summary>
+        /// 
+        /// </summary>
         public Vector3 FromScale
         {
             get => m_FromScale;
-            set
+            private set
             {
                 m_FromScale = Settings.ScaleConfig.OverrideCurrentValues 
                     ? Settings.ScaleConfig.From 
@@ -59,63 +84,54 @@ namespace PlayableFx
                 Scale = m_FromScale;
             }
         }
-        
-        /// <summary>
-        /// The duration of the <see cref="Tween"/>.
-        /// </summary>
-        public float Duration
-        {
-            set => m_Duration = value;
-        }
-        
-        /// <summary>
-        /// Sets the time of the <see cref="Tween"/>.
-        /// </summary>
-        public float Time
-        {
-            set => SetTime(value);
-        }
-        
-        private const string k_NullTransformError = "[Tween] Can't play tween because no Transform was provided.";
-        
-        private float m_Duration;
 
         private Vector3 m_FromPosition;
         private Vector3 m_FromRotation;
         private Vector3 m_FromScale;
         
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="duration"></param>
+        /// <returns></returns>
+        public Tween ForSeconds(float duration)
+        {
+            Duration = duration;
+            return this;
+        }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="position"></param>
+        /// <param name="rotation"></param>
+        /// <param name="scale"></param>
+        /// <returns></returns>
+        public Tween FromValues(Vector3 position, Vector3 rotation, Vector3 scale)
+        {
+            FromPosition = position;
+            FromRotation = rotation;
+            FromScale = scale;
 
-        /// <summary>
-        /// <see cref="Tween"/>'s constructor.
-        /// </summary>
-        public Tween() { }
-        
-        public void Deconstruct(out Vector3 position, out Vector3 rotation, out Vector3 scale)
-        {
-            position = Position;
-            rotation = Rotation;
-            scale = Scale;
-        }
-        
-        public void Deconstruct(out Vector3 position, out Vector3 rotation, out Vector3 scale, out TweenSettings settings)
-        {
-            position = Position;
-            rotation = Rotation;
-            scale = Scale;
-            settings = Settings;
+            return this;
         }
         
         /// <summary>
-        /// Sets the <see cref="Transform"/> to its final values.
+        /// 
         /// </summary>
-        public void Complete() => SetTime(m_Duration);
+        /// <param name="settings"></param>
+        /// <returns></returns>
+        public Tween ToSettings(TweenSettings settings)
+        {
+            Settings = settings;
+            return this;
+        }
         
         /// <summary>
-        /// Resets the <see cref="Transform"/> to its original values.
+        /// 
         /// </summary>
-        public void Revert() => SetTime(0f);
-        
-        private void SetTime(float time)
+        /// <param name="time"></param>
+        public void At(float time)
         {
             var sequenceBuilder = LSequence.Create();
 
@@ -137,10 +153,46 @@ namespace PlayableFx
             sequence.Time = time;
             sequence.TryCancel();
         }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="position"></param>
+        /// <param name="rotation"></param>
+        /// <param name="scale"></param>
+        public void Deconstruct(out Vector3 position, out Vector3 rotation, out Vector3 scale)
+        {
+            position = Position;
+            rotation = Rotation;
+            scale = Scale;
+        }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="position"></param>
+        /// <param name="rotation"></param>
+        /// <param name="scale"></param>
+        /// <param name="settings"></param>
+        public void Deconstruct(out Vector3 position, out Vector3 rotation, out Vector3 scale, out TweenSettings settings)
+        {
+            position = Position;
+            rotation = Rotation;
+            scale = Scale;
+            settings = Settings;
+        }
+        
+        /// <summary>
+        /// Sets the <see cref="Transform"/> to its final values.
+        /// </summary>
+        public void Complete() => At(Duration);
+        
+        /// <summary>
+        /// Resets the <see cref="Transform"/> to its original values.
+        /// </summary>
+        public void Revert() => At(0f);
 
-        private void CreateMotion(MotionSequenceBuilder sequenceBuilder, 
-            TweenConfig config,
-            Transformation transformation)
+        private void CreateMotion(MotionSequenceBuilder sequenceBuilder, TweenConfig config, Transformation transformation)
         {
             var from = transformation switch
             {
@@ -150,7 +202,7 @@ namespace PlayableFx
                 _ => default
             };
             
-            var motionBuilder = LMotion.Create(from, config.To, m_Duration);
+            var motionBuilder = LMotion.Create(from, config.To, Duration);
             if (config.Ease is Ease.CustomAnimationCurve)
             {
                 motionBuilder.WithEase(config.Curve);

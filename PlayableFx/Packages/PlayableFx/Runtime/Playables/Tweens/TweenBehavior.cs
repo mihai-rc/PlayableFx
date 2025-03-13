@@ -25,31 +25,21 @@ namespace PlayableFx
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public TweenSettings Settings
         {
-            set => Tween.Settings = value;
-        }
-        
-        public float Duration
-        {
-            set => Tween.Duration = value;
+            set => Tween.ToSettings(value);
         }
         
         /// <summary>
-        /// Creates the tween with the given settings.
+        /// 
         /// </summary>
-        /// <param name="positionSettings"> Position tween settings. </param>
-        /// <param name="rotationSettings"> Rotation tween settings. </param>
-        /// <param name="scaleSettings"> Scale tween settings. </param>
-        // public void CreateTween(TweenSettings positionSettings, TweenSettings rotationSettings, TweenSettings scaleSettings)
-        // {
-        //     m_Tween = new Tween(positionSettings, rotationSettings, scaleSettings);
-        // }
-
-        // public override void OnGraphStart(Playable playable)
-        // {
-        //     m_Tween.Revert();
-        // }
+        public float Duration
+        {
+            set => Tween.ForSeconds(value);
+        }
 
         public override void ProcessFrame(Playable playable, FrameData info, object playerData)
         {
@@ -61,22 +51,15 @@ namespace PlayableFx
                 }
                 
                 m_IsFirstFrame = false;
-                Tween.FromPosition = transform.localPosition;
-                Tween.FromRotation = transform.localEulerAngles;
-                Tween.FromScale = transform.localScale;
+                Tween.FromValues(transform.localPosition, transform.localEulerAngles, transform.localScale);
             }
             
-            Tween.Time = (float)playable.GetTime();
+            Tween.At((float)playable.GetTime());
         }
 
         public override void OnBehaviourPause(Playable playable, FrameData info)
         {
             m_IsFirstFrame = true;
-            
-            // if (info.weight != 0f)
-            //     return;
-            //
-            // m_Tween.Complete();
         }
     }
 }
