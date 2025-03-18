@@ -63,13 +63,13 @@ namespace PlayableFx
             for (var i = 0; i < inputCount; i++)
             {
                 var inputPlayable = (ScriptPlayable<TweenBehavior>)playable.GetInput(i);
-                var inoutWeight = playable.GetInputWeight(i);
+                var inputWeight = playable.GetInputWeight(i);
                 
-                if (inoutWeight == 0f)
+                if (inputWeight == 0f)
                     continue;
                 
                 var inputBehavior = inputPlayable.GetBehaviour();
-                playingInputs.Add((inputBehavior, inoutWeight));
+                playingInputs.Add((inputBehavior, inputWeight));
             }
             
             var playingInputsCount = playingInputs.Count;
@@ -85,7 +85,6 @@ namespace PlayableFx
                 
                 case 2:
                 {
-                    Debug.Log("Blending");
                     var firstInput = playingInputs[0];
                     var secondInput = playingInputs[1];
                     

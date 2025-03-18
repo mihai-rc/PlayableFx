@@ -143,7 +143,7 @@ namespace PlayableFx
         /// </summary>
         /// <param name="tween"> The tween to interpolate with. </param>
         /// <param name="step"> The step of the interpolation. </param>
-        /// <returns></returns>
+        /// <returns> Returns the reference to the tween. </returns>
         public TransformTween BlendWith(TransformTween tween, float step)
         {
             m_Position = (m_Settings.PositionConfig.Enabled, tween.m_Settings.PositionConfig.Enabled) switch
@@ -174,7 +174,7 @@ namespace PlayableFx
         }
         
         /// <summary>
-        /// Applies the tween values to the <see cref="Transform"/>.
+        /// Applies the tween values to the <see cref="Transform"/>
         /// </summary>
         /// <param name="transform"> Transform to apply the tween values to.</param>
         public void ApplyTo(Transform transform)
