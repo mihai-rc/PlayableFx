@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Playables;
@@ -6,6 +5,9 @@ using UnityEngine.Pool;
 
 namespace PlayableFx
 {
+    /// <summary>
+    /// The tween track mixer.
+    /// </summary>
     public class TweenTrackMixer : PlayableBehaviour
     {
         private const string k_NullTransformOnInitError = "[TweenTrackMixer] Can't initialize because no Transform was provided.";
@@ -17,6 +19,10 @@ namespace PlayableFx
         private Vector3 m_DefaultRotation;
         private Vector3 m_DefaultScale;
         
+        /// <summary>
+        /// Initializes the mixer.
+        /// </summary>
+        /// <param name="transform"> The <see cref="Transform"/> the tweens are applied to. </param>
         public void Init(Transform transform)
         {
             if (transform is null)
@@ -72,48 +78,20 @@ namespace PlayableFx
                 case 1:
                 {
                     var playingInput = playingInputs.First();
-                    var (position, rotation, scale, settings) = playingInput.behavior.Tween;
-                    
-                    if (settings.PositionConfig.Enabled)
-                        m_Transform.localPosition = position;
-                    
-                    if (settings.RotationConfig.Enabled)
-                        m_Transform.localEulerAngles = rotation;
-                    
-                    if (settings.ScaleConfig.Enabled)
-                        m_Transform.localScale = scale;
+                    playingInput.behavior.Tween.ApplyTo(m_Transform);
                     
                     break;
                 }
+                
                 case 2:
                 {
+                    Debug.Log("Blending");
                     var firstInput = playingInputs[0];
                     var secondInput = playingInputs[1];
-                    var secondWeight = secondInput.weight;
                     
-                    var (firstPosition, firstRotation, firstScale, firstSettings) = firstInput.behavior.Tween;
-                    var (secondPosition, secondRotation, secondScale, secondSettings) = secondInput.behavior.Tween;
-                    
-                    m_Transform.localPosition = (firstSettings.PositionConfig.Enabled, secondSettings.PositionConfig.Enabled) switch
-                    {
-                        (true , true ) => Vector3.Lerp(firstPosition, secondPosition, secondWeight),
-                        (true , false) => firstPosition,
-                        (false, true ) => secondPosition,
-                    };
-                    
-                    m_Transform.localEulerAngles = (firstSettings.RotationConfig.Enabled, secondSettings.RotationConfig.Enabled) switch
-                    {
-                        (true , true ) => Vector3.Lerp(firstRotation, secondRotation, secondWeight),
-                        (true , false) => firstRotation,
-                        (false, true ) => secondRotation,
-                    };
-                    
-                    m_Transform.localScale = (firstSettings.ScaleConfig.Enabled, secondSettings.ScaleConfig.Enabled) switch
-                    {
-                        (true , true ) => Vector3.Lerp(firstScale, secondScale, secondWeight),
-                        (true , false) => firstScale,
-                        (false, true ) => secondScale,
-                    };
+                    firstInput.behavior.Tween
+                        .BlendWith(secondInput.behavior.Tween, secondInput.weight)
+                        .ApplyTo(m_Transform);
                     
                     break;
                 }

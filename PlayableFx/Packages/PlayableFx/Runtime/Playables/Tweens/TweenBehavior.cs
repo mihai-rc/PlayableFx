@@ -8,37 +8,37 @@ namespace PlayableFx
     /// </summary>
     public class TweenBehavior : PlayableBehaviour
     {
-        private Tween m_Tween;
+        private TransformTween m_Tween;
         private bool m_IsFirstFrame = true;
 
         /// <summary>
         /// Reference to the tween that will be played.
         /// </summary>
-        public Tween Tween
+        public TransformTween Tween
         {
             get
             {
                 if (m_Tween is null)
-                    m_Tween = new Tween();
+                    m_Tween = new TransformTween();
                 
                 return m_Tween;
             }
         }
 
         /// <summary>
-        /// 
+        /// Sets the settings of the tween.
         /// </summary>
         public TweenSettings Settings
         {
-            set => Tween.ToSettings(value);
+            set => Tween.SetSettings(value);
         }
         
         /// <summary>
-        /// 
+        /// Sets the duration of the tween.
         /// </summary>
         public float Duration
         {
-            set => Tween.ForSeconds(value);
+            set => Tween.SetDuration(value);
         }
 
         public override void ProcessFrame(Playable playable, FrameData info, object playerData)
@@ -51,10 +51,10 @@ namespace PlayableFx
                 }
                 
                 m_IsFirstFrame = false;
-                Tween.FromValues(transform.localPosition, transform.localEulerAngles, transform.localScale);
+                Tween.SetStartingValues(transform.localPosition, transform.localEulerAngles, transform.localScale);
             }
             
-            Tween.At((float)playable.GetTime());
+            Tween.ComputeAt((float)playable.GetTime());
         }
 
         public override void OnBehaviourPause(Playable playable, FrameData info)
