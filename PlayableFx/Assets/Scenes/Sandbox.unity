@@ -122,6 +122,111 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &224128990
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 224128991}
+  - component: {fileID: 224128994}
+  - component: {fileID: 224128993}
+  - component: {fileID: 224128992}
+  m_Layer: 0
+  m_Name: Cube (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &224128991
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 224128990}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &224128992
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 224128990}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &224128993
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 224128990}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &224128994
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 224128990}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -595,7 +700,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1876884438}
-  - component: {fileID: 1876884437}
+  - component: {fileID: 1876884439}
   m_Layer: 0
   m_Name: _SequenceGraph
   m_TagString: Untagged
@@ -603,7 +708,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1876884437
+--- !u!4 &1876884438
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1876884436}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1876884439
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -615,26 +735,124 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e93d4aff6db4d34b97b77d98f3dd3c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Nodes: []
-  m_Connections: []
+  m_Nodes:
+  - rid: 3737122894717911040
+  - rid: 3737122894717911042
+  m_Connections:
+  - rid: 3737122894717911045
+  m_RootNodeId: bd0b13e4-c359-4037-a49c-1018e2c92f12
   references:
     version: 2
-    RefIds: []
---- !u!4 &1876884438
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1876884436}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+    RefIds:
+    - rid: 3737122894717911040
+      type: {class: SequenceRootNode, ns: PlayableFx, asm: GiftHorse.PlayableFx}
+      data:
+        m_Id: bd0b13e4-c359-4037-a49c-1018e2c92f12
+        m_Position:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        m_Expanded: 1
+        m_DepthLevel: 0
+        m_InPorts: []
+        m_OutPorts:
+        - rid: 3737122894717911041
+        To: 
+    - rid: 3737122894717911041
+      type: {class: OutPort, ns: GiftHorse.ScriptableGraphs, asm: GiftHorse.ScriptableGraph}
+      data:
+        m_Name: To
+        m_NodeId: bd0b13e4-c359-4037-a49c-1018e2c92f12
+        m_Index: 0
+        m_CompatibleType: System.String, mscorlib, Version=4.0.0.0, Culture=neutral,
+          PublicKeyToken=b77a5c561934e089
+        m_ConnectionIds:
+        - 8d2aff6f-cae2-409f-a636-6a07a4008828
+    - rid: 3737122894717911042
+      type: {class: TweenNode, ns: PlayableFx, asm: GiftHorse.PlayableFx}
+      data:
+        m_Id: bb7665b5-f6a8-4b1a-a31d-6489a01e93cc
+        m_Position:
+          serializedVersion: 2
+          x: 243
+          y: 0
+          width: 341
+          height: 425
+        m_Expanded: 1
+        m_DepthLevel: 1
+        m_InPorts:
+        - rid: 3737122894717911043
+        m_OutPorts:
+        - rid: 3737122894717911044
+        To: 
+        From: 
+        Transform: {fileID: 224128991}
+        Duration: 1
+        Settings:
+          <PositionConfig>k__BackingField:
+            <Enabled>k__BackingField: 1
+            <UseOverride>k__BackingField: 0
+            <FromOverride>k__BackingField: {x: 0, y: 0, z: 0}
+            <To>k__BackingField: {x: 0, y: 1, z: 0}
+            <Ease>k__BackingField: 0
+            <Curve>k__BackingField:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
+          <RotationConfig>k__BackingField:
+            <Enabled>k__BackingField: 1
+            <UseOverride>k__BackingField: 0
+            <FromOverride>k__BackingField: {x: 0, y: 0, z: 0}
+            <To>k__BackingField: {x: 0, y: 90, z: 0}
+            <Ease>k__BackingField: 0
+            <Curve>k__BackingField:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
+          <ScaleConfig>k__BackingField:
+            <Enabled>k__BackingField: 0
+            <UseOverride>k__BackingField: 0
+            <FromOverride>k__BackingField: {x: 0, y: 0, z: 0}
+            <To>k__BackingField: {x: 0, y: 0, z: 0}
+            <Ease>k__BackingField: 0
+            <Curve>k__BackingField:
+              serializedVersion: 2
+              m_Curve: []
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
+    - rid: 3737122894717911043
+      type: {class: InPort, ns: GiftHorse.ScriptableGraphs, asm: GiftHorse.ScriptableGraph}
+      data:
+        m_Name: From
+        m_NodeId: bb7665b5-f6a8-4b1a-a31d-6489a01e93cc
+        m_Index: 0
+        m_CompatibleType: System.String, mscorlib, Version=4.0.0.0, Culture=neutral,
+          PublicKeyToken=b77a5c561934e089
+        m_ConnectionId: 8d2aff6f-cae2-409f-a636-6a07a4008828
+    - rid: 3737122894717911044
+      type: {class: OutPort, ns: GiftHorse.ScriptableGraphs, asm: GiftHorse.ScriptableGraph}
+      data:
+        m_Name: To
+        m_NodeId: bb7665b5-f6a8-4b1a-a31d-6489a01e93cc
+        m_Index: 0
+        m_CompatibleType: System.String, mscorlib, Version=4.0.0.0, Culture=neutral,
+          PublicKeyToken=b77a5c561934e089
+        m_ConnectionIds: []
+    - rid: 3737122894717911045
+      type: {class: Connection, ns: GiftHorse.ScriptableGraphs, asm: GiftHorse.ScriptableGraph}
+      data:
+        m_Id: 8d2aff6f-cae2-409f-a636-6a07a4008828
+        m_FromPort:
+          rid: 3737122894717911041
+        m_ToPort:
+          rid: 3737122894717911043
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -643,5 +861,6 @@ SceneRoots:
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 579099692}
+  - {fileID: 224128991}
   - {fileID: 1806019460}
   - {fileID: 1876884438}

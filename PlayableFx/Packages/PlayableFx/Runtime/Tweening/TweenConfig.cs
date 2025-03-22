@@ -20,13 +20,13 @@ namespace PlayableFx
         /// Sets whether the tween should start from the current value or from the overrides.
         /// </summary>
         [field: SerializeField, Tooltip("Sets whether the tween should start from the current value or from the overrides.")]
-        public bool OverrideCurrentValues { get; private set; }
+        public bool UseOverride { get; private set; }
         
         /// <summary>
         /// Starting value to tween from.
         /// </summary>
         [field: SerializeField, Tooltip("Starting value to tween from.")]
-        public Vector3 From { get; private set; }
+        public Vector3 FromOverride { get; private set; }
         
         /// <summary>
         /// Destination value of tween to.

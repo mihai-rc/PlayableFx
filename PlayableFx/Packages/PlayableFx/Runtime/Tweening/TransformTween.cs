@@ -32,8 +32,8 @@ namespace PlayableFx
         {
             set
             {
-                m_FromPosition = m_Settings.PositionConfig.OverrideCurrentValues 
-                    ? m_Settings.PositionConfig.From 
+                m_FromPosition = m_Settings.PositionConfig.UseOverride 
+                    ? m_Settings.PositionConfig.FromOverride 
                     : value;
                 
                 m_Position = m_FromPosition;
@@ -44,8 +44,8 @@ namespace PlayableFx
         {
             set
             {
-                m_FromRotation = m_Settings.RotationConfig.OverrideCurrentValues 
-                    ? m_Settings.RotationConfig.From 
+                m_FromRotation = m_Settings.RotationConfig.UseOverride 
+                    ? m_Settings.RotationConfig.FromOverride 
                     : value;
                 
                 m_Rotation = m_FromRotation;
@@ -56,8 +56,8 @@ namespace PlayableFx
         {
             set
             {
-                m_FromScale = m_Settings.ScaleConfig.OverrideCurrentValues 
-                    ? m_Settings.ScaleConfig.From 
+                m_FromScale = m_Settings.ScaleConfig.UseOverride 
+                    ? m_Settings.ScaleConfig.FromOverride 
                     : value;
                 
                 m_Scale = m_FromScale;

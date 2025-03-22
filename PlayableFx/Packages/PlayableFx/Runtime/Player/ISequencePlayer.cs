@@ -13,8 +13,6 @@ namespace PlayableFx
         bool IsPlaying { get; }
         bool IsPaused { get; }
         
-        //ISequenceNode SequenceRoot { get; }
-
         float Progress { get; set; }
 
         UniTask PlayAsync();

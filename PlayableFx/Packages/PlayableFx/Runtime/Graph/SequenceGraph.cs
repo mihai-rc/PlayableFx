@@ -1,17 +1,57 @@
+using System.Linq;
+using UnityEngine;
 using GiftHorse.ScriptableGraphs;
 
 namespace PlayableFx
 {
     public class SequenceGraph : ScriptableGraphOf<SequenceNode>
     {
-        protected override void OnConnect(SequenceNode fromNode, OutPort fromPort, SequenceNode toNode, InPort toPort)
+        private const string k_LostRootError = "[SequenceGraph] The graph of {0} is misconfugured, the SequenceRootNode was lost";
+        private const string k_InvalidRootError = "[SequenceGraph] The graph of {0} is misconfugured, the SequenceRootNode could not be found";
+
+        [SerializeField] private string m_RootNodeId;
+
+        protected override void OnStart()
         {
-            throw new System.NotImplementedException();
+            Process();
+            if (TryGetRoot(out var root))
+                root.ProcessAsync();
         }
 
-        protected override void OnDisconnect(SequenceNode fromNode, OutPort fromPort, SequenceNode toNode, InPort toPort)
+        private void Reset()
         {
-            throw new System.NotImplementedException();
+            TryGetRoot(out _);
+        }
+
+        private bool TryGetRoot(out SequenceRootNode root)
+        {
+            if (string.IsNullOrEmpty(m_RootNodeId) && Nodes.Any())
+            {
+                Debug.LogErrorFormat(k_LostRootError, name);
+                    
+                root = null;
+                return false;
+            }
+            
+            if (!string.IsNullOrEmpty(m_RootNodeId) && !Nodes.Any())
+            {
+                Debug.LogErrorFormat(k_InvalidRootError, name);
+                    
+                root = null;
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(m_RootNodeId) && !Nodes.Any())
+            {
+                var createdRoot = new SequenceRootNode();
+                m_RootNodeId = createdRoot.Id;
+                AddNode(createdRoot);
+            }
+            
+            var wasFound = TryGetNodeById(m_RootNodeId, out var nodeFound);
+            root = nodeFound as SequenceRootNode;
+            
+            return wasFound;
         }
     }
 }
