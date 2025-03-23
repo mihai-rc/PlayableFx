@@ -2,8 +2,8 @@ using GiftHorse.ScriptableGraphs.Attributes;
 
 namespace PlayableFx
 {
-    [NodeScript("Directing")]
-    public class DelayNode : AsyncFlowNode
+    [NodeScript]
+    public class DelayNode : AsyncProcessNode
     {
         [NodeField] public float Duration;
     }

@@ -5,13 +5,9 @@ using GiftHorse.ScriptableGraphs.Attributes;
 
 namespace PlayableFx
 {
-    [NodeScript("Tweening"), HeaderColor(0.29f, 0.43f, 0.17f)]
-    public class TweenNode : AsyncFlowNode
+    [NodeScript, HeaderColor(0.29f, 0.43f, 0.17f)]
+    public class TweenNode : AsyncProcessNode
     {
-        // [Input] public TweenConfig PositionConfig;
-        // [Input] public TweenConfig RotationConfig;
-        // [Input] public TweenConfig ScaleConfig;
-        
         private const string k_TransformNotAssigned = "[SequenceGraph] [TweenNode] Cannot process tween with Id: {0} because no Transform was assigned! Graph name: {1}";
         private const string k_DurationNotSet = "[SequenceGraph] [TweenNode] Cannot process tween with Id: {0} because no Duration was set! Graph name: {1}";
         

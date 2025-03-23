@@ -4,8 +4,7 @@ using LitMotion;
 namespace PlayableFx
 {
     /// <summary>
-    /// Tween for transforming a game object.
-    /// </summary>
+    /// Encapsulates the tweening process of a transform for transforming a game object
     public class TransformTween
     {
         private enum Transformation

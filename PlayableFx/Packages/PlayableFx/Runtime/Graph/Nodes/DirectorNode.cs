@@ -3,8 +3,8 @@ using GiftHorse.ScriptableGraphs.Attributes;
 
 namespace PlayableFx
 {
-    [NodeScript("Directing"), HeaderColor(0.15f, 0.4f, 0.4f)]
-    public class DirectorNode : AsyncFlowNode
+    [NodeScript, HeaderColor(0.15f, 0.4f, 0.4f)]
+    public class DirectorNode : AsyncProcessNode
     {
         [NodeField] public PlayableDirector Director;
     }

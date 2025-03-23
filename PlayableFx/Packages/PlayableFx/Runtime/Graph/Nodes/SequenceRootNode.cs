@@ -1,27 +1,25 @@
+using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using GiftHorse.ScriptableGraphs;
 using GiftHorse.ScriptableGraphs.Attributes;
-using UnityEngine;
 
 namespace PlayableFx
 {
-    public class AsyncProcessNode : SequenceNode
+    [Serializable] 
+    [NodeScript(ExcludeFromSearch = true), HeaderColor(0.5f, 0.2f, 0.2f)]
+    public class SequenceRootNode : SequenceNode
     {
-        [Output] public string To;
-
-        private List<AsyncProcessNode> m_Continuations;
-
-        protected virtual async UniTask OnProcessAsync() { }
-
-        protected override void OnProcess(ScriptableGraph graph) => To = Id;
-
+        [Output] public string Start;
+        
+        private List<AsyncProcessNode> m_Continuations; // TODO: Use pool
+        
         protected override void OnCreate(ScriptableGraph graph)
         {
             m_Continuations = new List<AsyncProcessNode>();
             foreach (var outPort in OutPorts)
             {
-                if (!outPort.Name.Equals("To")) 
+                if (!outPort.Name.Equals(nameof(Start))) 
                     continue;
                 
                 foreach (var connectionId in outPort.ConnectionIds)
@@ -48,18 +46,15 @@ namespace PlayableFx
                 }
             }
         }
-
+        
+        protected override void OnProcess(ScriptableGraph graph) => Start = Id;
+        
         public async UniTask ProcessAsync()
         {
-            Debug.Log($"--- Begin ProcessAsync --- Id: {Id}");
-            await OnProcessAsync();
-            Debug.Log($"--- Begin Children --- Id: {Id}, Count: {m_Continuations.Count}");
             foreach (var continuation in m_Continuations)
             {
                 await continuation.ProcessAsync();
             }
-            
-            Debug.Log($"--- End ProcessAsync --- Id: {Id}");
         }
     }
 }

@@ -736,18 +736,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Nodes:
-  - rid: 3737122894717911040
-  - rid: 3737122894717911042
+  - rid: 3737122896410312715
+  - rid: 3737122896410312717
   m_Connections:
-  - rid: 3737122894717911045
-  m_RootNodeId: bd0b13e4-c359-4037-a49c-1018e2c92f12
+  - rid: 3737122896410312721
+  m_RootNodeId: cbdfdf39-9fbe-4ba2-bcc0-7557de02675d
   references:
     version: 2
     RefIds:
-    - rid: 3737122894717911040
+    - rid: 3737122896410312715
       type: {class: SequenceRootNode, ns: PlayableFx, asm: GiftHorse.PlayableFx}
       data:
-        m_Id: bd0b13e4-c359-4037-a49c-1018e2c92f12
+        m_Id: cbdfdf39-9fbe-4ba2-bcc0-7557de02675d
         m_Position:
           serializedVersion: 2
           x: 0
@@ -758,35 +758,37 @@ MonoBehaviour:
         m_DepthLevel: 0
         m_InPorts: []
         m_OutPorts:
-        - rid: 3737122894717911041
-        To: 
-    - rid: 3737122894717911041
+        - rid: 3737122896410312716
+        Start: 
+    - rid: 3737122896410312716
       type: {class: OutPort, ns: GiftHorse.ScriptableGraphs, asm: GiftHorse.ScriptableGraph}
       data:
-        m_Name: To
-        m_NodeId: bd0b13e4-c359-4037-a49c-1018e2c92f12
+        m_Name: Start
+        m_NodeId: cbdfdf39-9fbe-4ba2-bcc0-7557de02675d
         m_Index: 0
         m_CompatibleType: System.String, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
         m_ConnectionIds:
-        - 8d2aff6f-cae2-409f-a636-6a07a4008828
-    - rid: 3737122894717911042
+        - 1e1c6326-050f-4734-b2e3-fbd3b69cfb3b
+    - rid: 3737122896410312717
       type: {class: TweenNode, ns: PlayableFx, asm: GiftHorse.PlayableFx}
       data:
-        m_Id: bb7665b5-f6a8-4b1a-a31d-6489a01e93cc
+        m_Id: 8344f8f8-4acc-43a7-94b7-cdd283b5f7a0
         m_Position:
           serializedVersion: 2
-          x: 243
+          x: 246
           y: 0
           width: 341
-          height: 425
+          height: 449
         m_Expanded: 1
         m_DepthLevel: 1
         m_InPorts:
-        - rid: 3737122894717911043
+        - rid: 3737122896410312718
         m_OutPorts:
-        - rid: 3737122894717911044
-        To: 
+        - rid: 3737122896410312719
+        - rid: 3737122896410312720
+        AfterBranch: 
+        AfterEffect: 
         From: 
         Transform: {fileID: 224128991}
         Duration: 1
@@ -795,7 +797,7 @@ MonoBehaviour:
             <Enabled>k__BackingField: 1
             <UseOverride>k__BackingField: 0
             <FromOverride>k__BackingField: {x: 0, y: 0, z: 0}
-            <To>k__BackingField: {x: 0, y: 1, z: 0}
+            <To>k__BackingField: {x: 2, y: 1, z: 0}
             <Ease>k__BackingField: 0
             <Curve>k__BackingField:
               serializedVersion: 2
@@ -827,32 +829,41 @@ MonoBehaviour:
               m_PreInfinity: 2
               m_PostInfinity: 2
               m_RotationOrder: 4
-    - rid: 3737122894717911043
+    - rid: 3737122896410312718
       type: {class: InPort, ns: GiftHorse.ScriptableGraphs, asm: GiftHorse.ScriptableGraph}
       data:
         m_Name: From
-        m_NodeId: bb7665b5-f6a8-4b1a-a31d-6489a01e93cc
+        m_NodeId: 8344f8f8-4acc-43a7-94b7-cdd283b5f7a0
         m_Index: 0
         m_CompatibleType: System.String, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-        m_ConnectionId: 8d2aff6f-cae2-409f-a636-6a07a4008828
-    - rid: 3737122894717911044
+        m_ConnectionId: 1e1c6326-050f-4734-b2e3-fbd3b69cfb3b
+    - rid: 3737122896410312719
       type: {class: OutPort, ns: GiftHorse.ScriptableGraphs, asm: GiftHorse.ScriptableGraph}
       data:
-        m_Name: To
-        m_NodeId: bb7665b5-f6a8-4b1a-a31d-6489a01e93cc
+        m_Name: After Branch
+        m_NodeId: 8344f8f8-4acc-43a7-94b7-cdd283b5f7a0
         m_Index: 0
         m_CompatibleType: System.String, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
         m_ConnectionIds: []
-    - rid: 3737122894717911045
+    - rid: 3737122896410312720
+      type: {class: OutPort, ns: GiftHorse.ScriptableGraphs, asm: GiftHorse.ScriptableGraph}
+      data:
+        m_Name: After Effect
+        m_NodeId: 8344f8f8-4acc-43a7-94b7-cdd283b5f7a0
+        m_Index: 1
+        m_CompatibleType: System.String, mscorlib, Version=4.0.0.0, Culture=neutral,
+          PublicKeyToken=b77a5c561934e089
+        m_ConnectionIds: []
+    - rid: 3737122896410312721
       type: {class: Connection, ns: GiftHorse.ScriptableGraphs, asm: GiftHorse.ScriptableGraph}
       data:
-        m_Id: 8d2aff6f-cae2-409f-a636-6a07a4008828
+        m_Id: 1e1c6326-050f-4734-b2e3-fbd3b69cfb3b
         m_FromPort:
-          rid: 3737122894717911041
+          rid: 3737122896410312716
         m_ToPort:
-          rid: 3737122894717911043
+          rid: 3737122896410312718
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
