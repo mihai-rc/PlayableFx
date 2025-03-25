@@ -1,86 +1,49 @@
 using System.Collections.Generic;
+using System.Linq;
 using Cysharp.Threading.Tasks;
-using GiftHorse.ScriptableGraphs;
 using GiftHorse.ScriptableGraphs.Attributes;
 using UnityEngine.Pool;
 
 namespace PlayableFx
 {
-    public class AsyncProcessNode : SequenceNode
+    public class AsyncProcessNode : SequenceNode, IAsyncProcessNode
     {
-        [Output] public string AfterBranch;
-        [Output] public string AfterEffect;
-        [Input] public string From;
+        [Output] public string Out;
 
-        private List<AsyncProcessNode> m_BranchContinuations; // TODO: Use pool
-        private List<AsyncProcessNode> m_EffectContinuations; // TODO: Use pool
-
-        protected override void OnCreate(ScriptableGraph graph)
-        {
-            m_BranchContinuations = new List<AsyncProcessNode>();
-            m_EffectContinuations = new List<AsyncProcessNode>();
-            
-            foreach (var outPort in OutPorts)
-            {
-                if (!outPort.Name.Equals(nameof(AfterEffect)) && !outPort.Name.Equals(nameof(AfterBranch))) 
-                    continue;
-
-                var continuations = outPort.Name.Equals(nameof(AfterEffect)) 
-                    ? m_EffectContinuations 
-                    : m_BranchContinuations;
-                
-                foreach (var connectionId in outPort.ConnectionIds)
-                {
-                    if (!graph.TryGetConnectionById(connectionId, out var connection))
-                    {
-                        // TODO: Log Error
-                        continue;
-                    }
-                        
-                    if (!graph.TryGetNodeById(connection.ToPort.NodeId, out var node))
-                    {
-                        // TODO: Log Error
-                        continue;
-                    }
-
-                    if (node is not AsyncProcessNode asyncNode)
-                    {
-                        // TODO: Log Error
-                        continue;
-                    }
-                        
-                    continuations.Add(asyncNode);
-                }
-            }
-        }
+        private List<IAsyncProcessNode> m_OutputNodes;
         
-        protected override void OnProcess(ScriptableGraph graph)
-        {
-            AfterEffect = Id;
-            AfterBranch = Id;
-        }
-
-        protected virtual UniTask OnProcessAsync() => UniTask.CompletedTask;
-
         public async UniTask ProcessAsync()
         {
             await OnProcessAsync();
             
-            var tasks = ListPool<UniTask>.Get();
+            var outputProcesses = ListPool<UniTask>.Get();
+            outputProcesses.AddRange(Enumerable.Select(m_OutputNodes, node => node.ProcessAsync()));
+            await UniTask.WhenAll(outputProcesses);
             
-            foreach (var continuation in m_EffectContinuations)
-                tasks.Add(continuation.ProcessAsync());
-            
-            await UniTask.WhenAll(tasks);
-            tasks.Clear();
-            
-            foreach (var continuation in m_BranchContinuations)
-                tasks.Add(continuation.ProcessAsync());
-            
-            await UniTask.WhenAll(tasks);
-            tasks.Clear();
-            
-            ListPool<UniTask>.Release(tasks);
+            outputProcesses.Clear();
+            ListPool<UniTask>.Release(outputProcesses);
         }
+
+        protected override void OnInit()
+        {
+            m_OutputNodes = ListPool<IAsyncProcessNode>.Get();
+
+            if (!TryFindOutPortByName(nameof(Out), out var startPort))
+                return;
+            
+            foreach (var connectionId in startPort.ConnectionIds)
+            {
+                if (!Graph.TryGetOutputNode(connectionId, out AsyncProcessNode asyncNode))
+                    continue;
+                        
+                m_OutputNodes.Add(asyncNode);
+            }
+        }
+        
+        protected override void OnProcess() => Out = Id;
+        
+        protected virtual async UniTask OnProcessAsync() { }
+
+        protected override void OnDispose() => ListPool<IAsyncProcessNode>.Release(m_OutputNodes);
     }
 }

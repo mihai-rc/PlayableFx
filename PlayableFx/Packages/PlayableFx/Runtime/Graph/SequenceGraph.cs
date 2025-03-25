@@ -13,7 +13,6 @@ namespace PlayableFx
 
         protected override void OnStart()
         {
-            Process();
             if (TryGetRoot(out var root))
                 root.ProcessAsync();
         }
@@ -48,10 +47,7 @@ namespace PlayableFx
                 AddNode(createdRoot);
             }
             
-            var wasFound = TryGetNodeById(m_RootNodeId, out var nodeFound);
-            root = nodeFound as SequenceRootNode;
-            
-            return wasFound;
+            return TryGetNodeById(m_RootNodeId, out root);
         }
     }
 }

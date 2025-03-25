@@ -1,7 +1,10 @@
+using System.Threading;
+using Cysharp.Threading.Tasks;
+
 namespace PlayableFx
 {
     public interface IPlayableEffect
     {
-        ITimeSampler TimeSampler { get; }
+        UniTask PlayAsync(CancellationToken cancellation);
     }
 }

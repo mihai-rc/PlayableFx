@@ -18,7 +18,7 @@ namespace PlayableFx
                     return null;
                 
                 if (m_SequencePlayer is null)
-                    m_SequencePlayer = new SequencePlayer(name, m_Effect.TimeSampler);
+                    m_SequencePlayer = new SequencePlayer(name);
 
                 return m_SequencePlayer;
             }

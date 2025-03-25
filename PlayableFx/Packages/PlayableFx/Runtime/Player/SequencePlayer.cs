@@ -26,7 +26,7 @@ namespace PlayableFx
             {
                 m_Progress = value;
                 var time = ProgressToTime(value, m_Duration);
-                m_TimeSampler.Time = time;
+                // m_TimeSampler.Time = time;
             }
         }
         
@@ -43,23 +43,21 @@ namespace PlayableFx
         private SequenceState m_State;
         private float m_Duration;
         private float m_Progress;
-        private ITimeSampler m_TimeSampler;
         private MotionHandle m_Tween;
 
-        public SequencePlayer(string name, ITimeSampler timeSampler)
+        public SequencePlayer(string name)
         {
             m_Name = name;
             m_State = SequenceState.Idle;
-            m_TimeSampler = timeSampler;
 
-            if (timeSampler is not null)
-            {
-                m_Duration = timeSampler.Duration;
-            }
-            else
-            {
-                ReportError(k_TimeSamplerCannotBrNull);
-            }
+            // if (timeSampler is not null)
+            // {
+            //     m_Duration = timeSampler.Duration;
+            // }
+            // else
+            // {
+            //     ReportError(k_TimeSamplerCannotBrNull);
+            // }
         }
 
         public async UniTask PlayAsync()

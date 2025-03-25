@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 224128994}
   - component: {fileID: 224128993}
   - component: {fileID: 224128992}
+  - component: {fileID: 224128995}
   m_Layer: 0
   m_Name: Cube (1)
   m_TagString: Untagged
@@ -227,6 +228,57 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 224128990}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &224128995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 224128990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 331f95d69652420eaac04add3a9d8991, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Transform>k__BackingField: {fileID: 224128991}
+  <Duration>k__BackingField: 1
+  <Settings>k__BackingField:
+    <PositionConfig>k__BackingField:
+      <Enabled>k__BackingField: 1
+      <UseOverride>k__BackingField: 0
+      <FromOverride>k__BackingField: {x: 0, y: 0, z: 0}
+      <To>k__BackingField: {x: 2, y: 1, z: 0}
+      <Ease>k__BackingField: 0
+      <Curve>k__BackingField:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+    <RotationConfig>k__BackingField:
+      <Enabled>k__BackingField: 1
+      <UseOverride>k__BackingField: 0
+      <FromOverride>k__BackingField: {x: 0, y: 0, z: 0}
+      <To>k__BackingField: {x: 0, y: 90, z: 0}
+      <Ease>k__BackingField: 0
+      <Curve>k__BackingField:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+    <ScaleConfig>k__BackingField:
+      <Enabled>k__BackingField: 0
+      <UseOverride>k__BackingField: 0
+      <FromOverride>k__BackingField: {x: 0, y: 0, z: 0}
+      <To>k__BackingField: {x: 0, y: 0, z: 0}
+      <Ease>k__BackingField: 0
+      <Curve>k__BackingField:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -736,18 +788,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Nodes:
-  - rid: 3737122896410312715
-  - rid: 3737122896410312717
+  - rid: 3737122960487219205
+  - rid: 3737122960487219209
   m_Connections:
-  - rid: 3737122896410312721
-  m_RootNodeId: cbdfdf39-9fbe-4ba2-bcc0-7557de02675d
+  - rid: 3737122960487219212
+  m_RootNodeId: 674314d1-5218-44c6-b2ff-53938d0640d1
   references:
     version: 2
     RefIds:
-    - rid: 3737122896410312715
+    - rid: 3737122960487219205
       type: {class: SequenceRootNode, ns: PlayableFx, asm: GiftHorse.PlayableFx}
       data:
-        m_Id: cbdfdf39-9fbe-4ba2-bcc0-7557de02675d
+        m_Id: 674314d1-5218-44c6-b2ff-53938d0640d1
         m_Position:
           serializedVersion: 2
           x: 0
@@ -755,115 +807,64 @@ MonoBehaviour:
           width: 0
           height: 0
         m_Expanded: 1
-        m_DepthLevel: 0
         m_InPorts: []
         m_OutPorts:
-        - rid: 3737122896410312716
-        Start: 
-    - rid: 3737122896410312716
+        - rid: 3737122960487219206
+        Out: 
+    - rid: 3737122960487219206
       type: {class: OutPort, ns: GiftHorse.ScriptableGraphs, asm: GiftHorse.ScriptableGraph}
       data:
-        m_Name: Start
-        m_NodeId: cbdfdf39-9fbe-4ba2-bcc0-7557de02675d
+        m_Name: Out
+        m_NodeId: 674314d1-5218-44c6-b2ff-53938d0640d1
         m_Index: 0
         m_CompatibleType: System.String, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
         m_ConnectionIds:
-        - 1e1c6326-050f-4734-b2e3-fbd3b69cfb3b
-    - rid: 3737122896410312717
-      type: {class: TweenNode, ns: PlayableFx, asm: GiftHorse.PlayableFx}
+        - 5dfdae61-adff-4ddb-b1e0-47c8123024c7
+    - rid: 3737122960487219209
+      type: {class: PlayableEffectNode, ns: PlayableFx, asm: GiftHorse.PlayableFx}
       data:
-        m_Id: 8344f8f8-4acc-43a7-94b7-cdd283b5f7a0
+        m_Id: 56e849d9-0704-42d1-a86e-9b03183ad1de
         m_Position:
           serializedVersion: 2
-          x: 246
+          x: 232
           y: 0
-          width: 341
-          height: 449
+          width: 212
+          height: 106
         m_Expanded: 1
-        m_DepthLevel: 1
         m_InPorts:
-        - rid: 3737122896410312718
+        - rid: 3737122960487219210
         m_OutPorts:
-        - rid: 3737122896410312719
-        - rid: 3737122896410312720
-        AfterBranch: 
-        AfterEffect: 
-        From: 
-        Transform: {fileID: 224128991}
-        Duration: 1
-        Settings:
-          <PositionConfig>k__BackingField:
-            <Enabled>k__BackingField: 1
-            <UseOverride>k__BackingField: 0
-            <FromOverride>k__BackingField: {x: 0, y: 0, z: 0}
-            <To>k__BackingField: {x: 2, y: 1, z: 0}
-            <Ease>k__BackingField: 0
-            <Curve>k__BackingField:
-              serializedVersion: 2
-              m_Curve: []
-              m_PreInfinity: 2
-              m_PostInfinity: 2
-              m_RotationOrder: 4
-          <RotationConfig>k__BackingField:
-            <Enabled>k__BackingField: 1
-            <UseOverride>k__BackingField: 0
-            <FromOverride>k__BackingField: {x: 0, y: 0, z: 0}
-            <To>k__BackingField: {x: 0, y: 90, z: 0}
-            <Ease>k__BackingField: 0
-            <Curve>k__BackingField:
-              serializedVersion: 2
-              m_Curve: []
-              m_PreInfinity: 2
-              m_PostInfinity: 2
-              m_RotationOrder: 4
-          <ScaleConfig>k__BackingField:
-            <Enabled>k__BackingField: 0
-            <UseOverride>k__BackingField: 0
-            <FromOverride>k__BackingField: {x: 0, y: 0, z: 0}
-            <To>k__BackingField: {x: 0, y: 0, z: 0}
-            <Ease>k__BackingField: 0
-            <Curve>k__BackingField:
-              serializedVersion: 2
-              m_Curve: []
-              m_PreInfinity: 2
-              m_PostInfinity: 2
-              m_RotationOrder: 4
-    - rid: 3737122896410312718
+        - rid: 3737122960487219211
+        Out: 
+        In: 
+        PlayableEffect: {fileID: 224128995}
+    - rid: 3737122960487219210
       type: {class: InPort, ns: GiftHorse.ScriptableGraphs, asm: GiftHorse.ScriptableGraph}
       data:
-        m_Name: From
-        m_NodeId: 8344f8f8-4acc-43a7-94b7-cdd283b5f7a0
+        m_Name: In
+        m_NodeId: 56e849d9-0704-42d1-a86e-9b03183ad1de
         m_Index: 0
         m_CompatibleType: System.String, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-        m_ConnectionId: 1e1c6326-050f-4734-b2e3-fbd3b69cfb3b
-    - rid: 3737122896410312719
+        m_ConnectionId: 5dfdae61-adff-4ddb-b1e0-47c8123024c7
+    - rid: 3737122960487219211
       type: {class: OutPort, ns: GiftHorse.ScriptableGraphs, asm: GiftHorse.ScriptableGraph}
       data:
-        m_Name: After Branch
-        m_NodeId: 8344f8f8-4acc-43a7-94b7-cdd283b5f7a0
+        m_Name: Out
+        m_NodeId: 56e849d9-0704-42d1-a86e-9b03183ad1de
         m_Index: 0
         m_CompatibleType: System.String, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
         m_ConnectionIds: []
-    - rid: 3737122896410312720
-      type: {class: OutPort, ns: GiftHorse.ScriptableGraphs, asm: GiftHorse.ScriptableGraph}
-      data:
-        m_Name: After Effect
-        m_NodeId: 8344f8f8-4acc-43a7-94b7-cdd283b5f7a0
-        m_Index: 1
-        m_CompatibleType: System.String, mscorlib, Version=4.0.0.0, Culture=neutral,
-          PublicKeyToken=b77a5c561934e089
-        m_ConnectionIds: []
-    - rid: 3737122896410312721
+    - rid: 3737122960487219212
       type: {class: Connection, ns: GiftHorse.ScriptableGraphs, asm: GiftHorse.ScriptableGraph}
       data:
-        m_Id: 1e1c6326-050f-4734-b2e3-fbd3b69cfb3b
+        m_Id: 5dfdae61-adff-4ddb-b1e0-47c8123024c7
         m_FromPort:
-          rid: 3737122896410312716
+          rid: 3737122960487219206
         m_ToPort:
-          rid: 3737122896410312718
+          rid: 3737122960487219210
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
