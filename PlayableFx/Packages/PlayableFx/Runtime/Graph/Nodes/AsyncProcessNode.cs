@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using GiftHorse.ScriptableGraphs.Attributes;
 using UnityEngine.Pool;
@@ -12,12 +13,15 @@ namespace PlayableFx
 
         private List<IAsyncProcessNode> m_OutputNodes;
         
-        public async UniTask ProcessAsync()
+        public async UniTask ProcessAsync(CancellationToken cancellation)
         {
-            await OnProcessAsync();
+            await OnProcessAsync(cancellation);
             
             var outputProcesses = ListPool<UniTask>.Get();
-            outputProcesses.AddRange(Enumerable.Select(m_OutputNodes, node => node.ProcessAsync()));
+            outputProcesses.AddRange(Enumerable
+                .Select(m_OutputNodes, node => node
+                .ProcessAsync(cancellation)));
+            
             await UniTask.WhenAll(outputProcesses);
             
             outputProcesses.Clear();
@@ -27,22 +31,12 @@ namespace PlayableFx
         protected override void OnInit()
         {
             m_OutputNodes = ListPool<IAsyncProcessNode>.Get();
-
-            if (!TryFindOutPortByName(nameof(Out), out var startPort))
-                return;
-            
-            foreach (var connectionId in startPort.ConnectionIds)
-            {
-                if (!Graph.TryGetOutputNode(connectionId, out AsyncProcessNode asyncNode))
-                    continue;
-                        
-                m_OutputNodes.Add(asyncNode);
-            }
+            FetchFlowNodesOf(nameof(Out), m_OutputNodes);
         }
         
         protected override void OnProcess() => Out = Id;
         
-        protected virtual async UniTask OnProcessAsync() { }
+        protected virtual async UniTask OnProcessAsync(CancellationToken cancellation) { }
 
         protected override void OnDispose() => ListPool<IAsyncProcessNode>.Release(m_OutputNodes);
     }

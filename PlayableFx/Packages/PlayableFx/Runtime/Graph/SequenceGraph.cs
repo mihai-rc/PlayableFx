@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Threading;
 using UnityEngine;
 using GiftHorse.ScriptableGraphs;
 
@@ -13,8 +14,15 @@ namespace PlayableFx
 
         protected override void OnStart()
         {
+            var cancellation = new CancellationTokenSource();
+
+            foreach (var node in Nodes)
+            {
+                node.Process();
+            }
+            
             if (TryGetRoot(out var root))
-                root.ProcessAsync();
+                root.ProcessAsync(cancellation.Token);
         }
 
         private void Reset()

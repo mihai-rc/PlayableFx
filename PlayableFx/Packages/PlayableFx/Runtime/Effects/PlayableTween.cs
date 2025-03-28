@@ -55,6 +55,12 @@ namespace PlayableFx
             
             while (m_CurrentTime < Duration)
             {
+                if (cancellation.IsCancellationRequested)
+                {
+                    m_Tween.ComputeAt(0f).ApplyTo(Transform);
+                    return;
+                }
+                
                 m_CurrentTime += Time.deltaTime;
                 
                 if (m_CurrentTime > Duration)
