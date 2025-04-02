@@ -17,12 +17,10 @@ namespace PlayableFx
             var cancellation = new CancellationTokenSource();
 
             foreach (var node in Nodes)
-            {
                 node.Process();
-            }
             
             if (TryGetRoot(out var root))
-                root.ProcessAsync(cancellation.Token);
+                root.PlayAsync(cancellation.Token);
         }
 
         private void Reset()

@@ -5,6 +5,7 @@ namespace PlayableFx
 {
     /// <summary>
     /// Encapsulates the tweening process of a transform for transforming a game object
+    /// </summary>
     public class TransformTween
     {
         private enum Transformation

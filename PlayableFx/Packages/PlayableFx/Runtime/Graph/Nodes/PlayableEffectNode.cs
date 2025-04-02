@@ -6,7 +6,7 @@ using GiftHorse.ScriptableGraphs.Attributes;
 namespace PlayableFx
 {
     [NodeScript, HeaderColor(0.29f, 0.43f, 0.17f)]
-    public class PlayableEffectNode : AsyncProcessNode
+    public class PlayableEffectNode : SimpleAsyncPlayableNode
     {
         private const string k_NullPlayableEffectHolder = "[SequenceGraph] [PlayableEffectNode] Cannot play node with Id: {0} because no PlayableEffectHolder was assigned! Graph name: {1}";
         private const string k_NullPlayableEffect = "[SequenceGraph] [PlayableEffectNode] Cannot play node with Id: {0} because no PlayableEffect was assigned! Graph name: {1}";
@@ -33,7 +33,7 @@ namespace PlayableFx
             }
         }
 
-        protected override async UniTask OnProcessAsync(CancellationToken cancellation)
+        protected override async UniTask OnPlayAsync(CancellationToken cancellation)
         {
             if (m_PlayableEffect is null)
             {

@@ -28,11 +28,6 @@ namespace PlayableFx
                 
                 await UniTask.Yield();
             }
-            
-            // if (m_Director.state == PlayState.Playing)
-            // {
-            //     m_Director.Stop();
-            // }
         }
     }
 }

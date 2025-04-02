@@ -6,14 +6,14 @@ using UnityEngine;
 namespace PlayableFx
 {
     [NodeScript]
-    public class DelayNode : AsyncProcessNode
+    public class DelayNode : SimpleAsyncPlayableNode
     {
         private const string k_InvalidDuration = "[DelayNode] Duration is zero or negative. Graph name: {0}";
         
         [Input] public string In;
         [NodeField] public float Duration;
         
-        protected override UniTask OnProcessAsync(CancellationToken cancellation)
+        protected override UniTask OnPlayAsync(CancellationToken cancellation)
         {
             if (Duration <= 0)
             {

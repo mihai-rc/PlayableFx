@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using GiftHorse.ScriptableGraphs.Attributes;
@@ -7,20 +6,20 @@ using UnityEngine.Pool;
 
 namespace PlayableFx
 {
-    public class AsyncProcessNode : SequenceNode, IAsyncProcessNode
+    public class SimpleAsyncPlayableNode : SequenceNode, IAsyncPlayable
     {
         [Output] public string Out;
 
-        private List<IAsyncProcessNode> m_OutputNodes;
+        private List<IAsyncPlayable> m_OutputNodes;
         
-        public async UniTask ProcessAsync(CancellationToken cancellation)
+        public async UniTask PlayAsync(CancellationToken cancellation)
         {
-            await OnProcessAsync(cancellation);
+            await OnPlayAsync(cancellation);
             
             var outputProcesses = ListPool<UniTask>.Get();
-            outputProcesses.AddRange(Enumerable
-                .Select(m_OutputNodes, node => node
-                .ProcessAsync(cancellation)));
+
+            foreach (var node in m_OutputNodes)
+                outputProcesses.Add(node.PlayAsync(cancellation));
             
             await UniTask.WhenAll(outputProcesses);
             
@@ -30,14 +29,14 @@ namespace PlayableFx
 
         protected override void OnInit()
         {
-            m_OutputNodes = ListPool<IAsyncProcessNode>.Get();
+            m_OutputNodes = ListPool<IAsyncPlayable>.Get();
             FetchFlowNodesOf(nameof(Out), m_OutputNodes);
         }
         
         protected override void OnProcess() => Out = Id;
         
-        protected virtual async UniTask OnProcessAsync(CancellationToken cancellation) { }
+        protected virtual async UniTask OnPlayAsync(CancellationToken cancellation) { }
 
-        protected override void OnDispose() => ListPool<IAsyncProcessNode>.Release(m_OutputNodes);
+        protected override void OnDispose() => ListPool<IAsyncPlayable>.Release(m_OutputNodes);
     }
 }
